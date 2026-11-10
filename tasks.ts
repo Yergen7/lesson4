@@ -14,20 +14,32 @@ const tasks: Task[] = [
 ];
 
 function addTask(list: Task[], title: string): Task {
-  const task: Task = { id: list.length + 1, title, done: false };
+  const maxId = list.reduce((max, task) => {
+    return task.id > max ? task.id : max;
+  }, 0);
+
+  const task: Task = {
+    id: maxId + 1,
+    title,
+    done: false,
+  };
+
   list.push(task);
   return task;
 }
 
 function completeTask(list: Task[], id: number): void {
-  const task = list.find((t) => t.id === id);
+  const task = list.find((task) => task.id === id);
+
   if (task) {
     task.done = true;
   }
 }
 
 function pending(list: Task[]): Task[] {
-  return list.filter((t) => !t.done);
+  return list.filter((task) => !task.done);
 }
 
+addTask(tasks, "Новая задача");
+completeTask(tasks, 2);
 console.log(pending(tasks));
